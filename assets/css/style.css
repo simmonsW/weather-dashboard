@@ -35,13 +35,13 @@ form label {
   font-size: larger;
 }
 
-#current-city {
+#current {
   border: 2px solid gray;
   margin: 10px;
   padding: 20px;
 }
 
-#current-city h3, #current-city p {
+#current h3, #current p {
   padding: 5px;
 }
 
