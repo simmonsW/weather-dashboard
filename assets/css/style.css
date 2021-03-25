@@ -1,0 +1,61 @@
+* {
+  box-sizing: border-box;
+}
+
+header {
+  background-color: darkslategrey;
+  color: white;
+  padding: 5px;
+  text-align: center;
+}
+
+#search {
+  background-color: lightgray;
+  padding: 0px;
+}
+
+#display {
+  padding: 0px;
+}
+
+.row {
+  margin: 0px;
+}
+
+form {
+  padding: 10px;
+}
+
+.list-group {
+  padding: 10px;
+}
+
+form label {
+  font-weight: 600;
+  font-size: larger;
+}
+
+#current-city {
+  border: 2px solid gray;
+  margin: 10px;
+  padding: 20px;
+}
+
+#current-city h3, #current-city p {
+  padding: 5px;
+}
+
+#current-uv-index {
+  background-color: tomato;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+#week-forecast {
+  margin-top: 30px;
+}
+
+#week-forecast .card {
+  background-color: lightskyblue;
+  padding: 10px;
+}

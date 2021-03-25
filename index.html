@@ -15,6 +15,70 @@
   <title>Weather Dashboard</title>
 </head>
 <body>
+  <header>
+    <h1>Weather Dashboard</h1>
+  </header>
+  <main>
+    <div class="row">
+      <div class="col-4" id="search">
+        <form id="search-form">
+          <label for="city-search">Search for a City:</label></br>
+          <input id="city-search" type="text" />
+          <button type="button" class="btn btn-primary">Search</button>
+        </form>
+        <ul class="list-group">
+          <li class="list-group-item">Atlanta</li>
+          <li class="list-group-item">Los Angeles</li>
+          <li class="list-group-item">Las Vegas</li>
+          <li class="list-group-item">San Fransisco</li>
+        </ul>
+      </div>
+      <div class="col-8" id="display">
+        <div class="card" id="current-city">
+          <h3 class="card-title">Atlanta (8/15/2020)</h2>
+            <p class="card-text" id="temperature">Temperature: <span id="current-temp">90.9 F</span></p>
+            <p class="card-text" id="humidity">Humidity: <span id="current-humidity">41%</span></p>
+            <p class="card-text" id="wind-speed">Wind Speed: <span id="current-wind-speed">4.7 MPH</span></p>
+            <p class="card-text" id="uv-index">UV Index: <span id="current-uv-index">9.49</span></p>
+        </div>
+        <div class="row" id="week-forecast">
+          <h3 class="col-12">5-Day Forcast:</h3>
+          <div class="col-12 d-flex align-items-center justify-content-around">
+            <div class="card" id="day-1">
+              <h5 class="card-title">8/15/2020</h5>
+              <div class="card-subtitle"></div>
+              <p class="card-text" id="temperature">Temperature: <span id="current-temp">90.9 F</span></p>
+              <p class="card-text" id="humidity">Humidity: <span id="current-humidity">41%</span></p>
+            </div>
+            <div class="card" id="day-2">
+              <h5 class="card-title">8/16/2020</h5>
+              <div class="card-subtitle"></div>
+              <p class="card-text">Temperature: <span id="temp-2">12 F</span></p>
+              <p class="card-text">Humidity: <span id="humidity-2">12%</span></p>
+            </div>
+            <div class="card" id="day-3">
+              <h5 class="card-title">8/17/2020</h5>
+              <div class="card-subtitle"></div>
+              <p class="card-text">Temperature: <span id="temp-3">56 F</span></p>
+              <p class="card-text">Humidity: <span id="humidity-3">67%</span></p>
+            </div>
+            <div class="card" id="day-4">
+              <h5 class="card-title">8/18/2020</h5>
+              <div class="card-subtitle"></div>
+              <p class="card-text">Temperature: <span id="temp-4">78 F</span></p>
+              <p class="card-text">Humidity: <span id="humidity-4">45%</span></p>
+            </div>
+            <div class="card" id="day-5">
+              <h5 class="card-title">8/19/2020</h5>
+              <div class="card-subtitle"></div>
+              <p class="card-text">Temperature: <span id="temp-5">79 F</span></p>
+              <p class="card-text">Humidity: <span id="humidity-5">87%</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
   
   <script src="assets/js/script.js"></script>
 </body>
