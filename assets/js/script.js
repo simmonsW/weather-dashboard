@@ -1,5 +1,4 @@
 var inputEl = document.querySelector('#city-search');
-// var searchFormEl = document.querySelector('#search-form');
 var searchBtnEl = document.querySelector('#search-btn');
 var currentCityEl = document.querySelector('#current-city');
 var currentTempEl = document.querySelector('#current-temp');
