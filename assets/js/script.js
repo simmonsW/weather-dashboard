@@ -1,19 +1,62 @@
 var inputEl = document.querySelector('#city-search');
 var searchBtnEl = document.querySelector('#search-btn');
+var cityListEl = document.querySelector('#city-list');
 var currentCityEl = document.querySelector('#current-city');
 var currentTempEl = document.querySelector('#current-temp');
 var currentHumidityEL = document.querySelector('#current-humidity');
 var currentWSEl = document.querySelector('#current-ws');
 var currentUViEl = document.querySelector('#current-uvi');
 var weekForecastEl = document.querySelector('#week-forecast');
+var cityArr = [];
+
+// load stored cities
+var storedCities = JSON.parse(localStorage.getItem('storedCities'));
+
+if (!storedCities) {
+  console.log('nothing saved');
+} else {
+  cityArr = storedCities;
+  
+  // display searched city list
+  displayCityList(cityArr);
+}
 
 var searchSubmitHandler = function(event) {
   event.preventDefault;
 
   // get city name
   var city = inputEl.value.trim();
-  getCity(city);
-}
+
+  // check if city has been searched
+  if (cityArr.includes(city)) {
+    getCity(city);
+  } else {
+    cityArr.push(city);
+
+    // store searched city
+    localStorage.setItem('storedCities', JSON.stringify(cityArr));
+
+    // update city list
+    updateList(city);
+    getCity(city);
+  }
+};
+
+var updateList = function(city) {
+  var listItemEl = document.createElement('li');
+    listItemEl.className = 'list-group-item';
+    listItemEl.textContent = city;
+    cityListEl.appendChild(listItemEl);
+};
+
+function displayCityList() {
+  for (i = 0; i < cityArr.length; i++) {
+    var listItemEl = document.createElement('li');
+    listItemEl.className = 'list-group-item';
+    listItemEl.textContent = cityArr[i];
+    cityListEl.appendChild(listItemEl);
+  }
+};
 
 var getCity = function(city) {
   // var city = 'Los Angeles';
@@ -133,3 +176,4 @@ var display5Day = function(data) {
 }
 
 searchBtnEl.addEventListener('click', searchSubmitHandler);
+inputEl.addEventListener('submit', searchSubmitHandler);
