@@ -3,6 +3,7 @@ var currentTempEl = document.querySelector('#current-temp');
 var currentHumidityEL = document.querySelector('#current-humidity');
 var currentWSEl = document.querySelector('#current-ws');
 var currentUViEl = document.querySelector('#current-uvi');
+var weekForecastEl = document.querySelector('#week-forecast');
 
 var getCity = function() {
   var city = 'Los Angeles';
@@ -52,8 +53,9 @@ var getCityOneCall = function(data) {
 var displayWeather = function(data, city) {
   console.log(data);
 
-  // get current date
-  var dateArr = new Date().toLocaleDateString('en-US').split('/');
+  // get date
+  var unixDate = data.current.dt;
+  var dateArr = new Date(unixDate * 1000).toLocaleDateString('en-US').split('/');
   console.log(dateArr);
   var date = "(" + dateArr[0] + "/" + dateArr[1] + "/" + dateArr[2] + ")";
   console.log(date);
@@ -73,11 +75,46 @@ var displayWeather = function(data, city) {
   var uvIndex = data.current.uvi;
 
   // display desired data
-  currentTempEl.textContent = 'Temperature: ' + temp + '°F';
-  currentHumidityEL.textContent = 'Humidity: ' + humidity + '%';
-  currentWSEl.textContent = 'Wind Speed: ' + windSpeed + 'MPH';
+  currentTempEl.textContent = 'Temperature: ' + temp + ' °F';
+  currentHumidityEL.textContent = 'Humidity: ' + humidity + ' %';
+  currentWSEl.textContent = 'Wind Speed: ' + windSpeed + ' MPH';
   currentUViEl.innerHTML = 'UV Index: ' + uvIndex;
 
+  display5Day(data);
 };
+
+var display5Day = function(data) {
+  for (i = 1; i < 6; i++) {
+    // get date, temperature, and humidity
+    var unixDate = data.daily[i].dt;
+    var dateArr = new Date(unixDate * 1000).toLocaleDateString('en-US').split('/');
+    var date = "(" + dateArr[0] + "/" + dateArr[1] + "/" + dateArr[2] + ")";
+    var weatherIcon = data.daily[i].weather[0].icon;
+    var iconSrc = "http://openweathermap.org/img/w/" + weatherIcon + ".png";
+    var temp = data.daily[i].temp.day;
+    var humidity = data.daily[i].humidity;
+    console.log(date);
+    console.log(temp);
+    console.log(humidity);
+
+    var cardEl = document.createElement('div');
+    cardEl.className= 'card';
+    var cardTitleEl = document.createElement('h5');
+    cardTitleEl.className = 'card-title';
+    cardTitleEl.innerHTML = date + `<img src=${iconSrc}>`;
+    var tempEl = document.createElement('p');
+    tempEl.className = 'card-text';
+    tempEl.textContent = 'Temperature: ' + temp + ' °F';
+    var humidityEl = document.createElement('p');
+    humidityEl.className = 'card-text';
+    humidityEl.textContent = 'Humidity: ' + humidity + ' %';
+
+    // append to page
+    cardEl.appendChild(cardTitleEl);
+    cardEl.appendChild(tempEl);
+    cardEl.appendChild(humidityEl);
+    weekForecastEl.appendChild(cardEl);
+  };
+}
 
 getCity();
