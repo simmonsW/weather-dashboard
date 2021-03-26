@@ -1,3 +1,6 @@
+var inputEl = document.querySelector('#city-search');
+// var searchFormEl = document.querySelector('#search-form');
+var searchBtnEl = document.querySelector('#search-btn');
 var currentCityEl = document.querySelector('#current-city');
 var currentTempEl = document.querySelector('#current-temp');
 var currentHumidityEL = document.querySelector('#current-humidity');
@@ -5,8 +8,16 @@ var currentWSEl = document.querySelector('#current-ws');
 var currentUViEl = document.querySelector('#current-uvi');
 var weekForecastEl = document.querySelector('#week-forecast');
 
-var getCity = function() {
-  var city = 'Los Angeles';
+var searchSubmitHandler = function(event) {
+  event.preventDefault;
+
+  // get city name
+  var city = inputEl.value.trim();
+  getCity(city);
+}
+
+var getCity = function(city) {
+  // var city = 'Los Angeles';
   var apiURL = "https://api.openweathermap.org/data/2.5/weather?q="
     + city + "&units=imperial&appid=";
 
@@ -17,7 +28,7 @@ var getCity = function() {
       });
     } else {
       alert("Error: " + response.statusText);
-    }
+    };
   })
   .catch(function(error) {
     alert('Unable to connect');
@@ -84,6 +95,11 @@ var displayWeather = function(data, city) {
 };
 
 var display5Day = function(data) {
+  // clear old content
+  while (weekForecastEl.firstChild) {
+    weekForecastEl.removeChild(weekForecastEl.firstChild);
+  }
+
   for (i = 1; i < 6; i++) {
     // get date, temperature, and humidity
     var unixDate = data.daily[i].dt;
@@ -117,4 +133,4 @@ var display5Day = function(data) {
   };
 }
 
-getCity();
+searchBtnEl.addEventListener('click', searchSubmitHandler);
