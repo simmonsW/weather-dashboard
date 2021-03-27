@@ -9,6 +9,10 @@ var currentUViEl = document.querySelector('#current-uvi');
 var weekForecastEl = document.querySelector('#week-forecast');
 var cityArr = [];
 
+// create list item elements
+// var listItemEl = document.createElement('li');
+//   listItemEl.className = 'list-group-item';
+
 // load stored cities
 var storedCities = JSON.parse(localStorage.getItem('storedCities'));
 
@@ -40,6 +44,14 @@ var searchSubmitHandler = function(event) {
     updateList(city);
     getCity(city);
   }
+};
+
+var listSubmitHandler = function(event) {
+  event.preventDefault;
+
+  var city = event.target.textContent;
+  console.log(city);
+  getCity(city);
 };
 
 var updateList = function(city) {
@@ -101,7 +113,7 @@ var getCityOneCall = function(data) {
   .catch(function(error) {
     alert('Unable to connect');
   });
-}
+};
 
 var displayWeather = function(data, city) {
   console.log(data);
@@ -177,3 +189,8 @@ var display5Day = function(data) {
 
 searchBtnEl.addEventListener('click', searchSubmitHandler);
 inputEl.addEventListener('submit', searchSubmitHandler);
+cityListEl.addEventListener('click', function(event) {
+  if (event.target.tagName.toLowerCase() === 'li') {
+    listSubmitHandler(event);
+  };
+});
