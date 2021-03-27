@@ -31,7 +31,18 @@ var searchSubmitHandler = function(event) {
   event.preventDefault;
 
   // get city name
-  var city = inputEl.value.trim();
+  var cityInput = inputEl.value.trim().toLowerCase();
+
+  // format city name uniformity
+  var citySplit = cityInput.split(' ');
+
+  for (var i = 0; i < citySplit.length; i++) {
+    citySplit[i] = citySplit[i][0].toUpperCase() + citySplit[i].substr(1);
+  }
+
+  var city = citySplit.join(' ');
+
+  console.log(city);
 
   // check if city has been searched
   if (cityArr.includes(city)) {
