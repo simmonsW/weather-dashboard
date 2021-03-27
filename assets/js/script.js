@@ -9,20 +9,22 @@ var currentUViEl = document.querySelector('#current-uvi');
 var weekForecastEl = document.querySelector('#week-forecast');
 var cityArr = [];
 
-// create list item elements
-// var listItemEl = document.createElement('li');
-//   listItemEl.className = 'list-group-item';
-
 // load stored cities
 var storedCities = JSON.parse(localStorage.getItem('storedCities'));
 
 if (!storedCities) {
   console.log('nothing saved');
+  var city = "Los Angeles";
+  getCity(city);
 } else {
   cityArr = storedCities;
   
   // display searched city list
   displayCityList(cityArr);
+
+  // display data for first city
+  var city = cityArr[0];
+  getCity(city);
 }
 
 var searchSubmitHandler = function(event) {
@@ -70,8 +72,7 @@ function displayCityList() {
   }
 };
 
-var getCity = function(city) {
-  // var city = 'Los Angeles';
+function getCity(city) {
   var apiURL = "https://api.openweathermap.org/data/2.5/weather?q="
     + city + "&units=imperial&appid=";
 
