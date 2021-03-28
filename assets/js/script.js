@@ -1,7 +1,8 @@
 var inputEl = document.querySelector('#city-search');
 var searchBtnEl = document.querySelector('#search-btn');
 var searchFormEl = document.querySelector('#search-form');
-var cityListEl = document.querySelector('#city-list');
+// var cityListEl = document.querySelector('#city-list');
+var $cityList = $('#city-list');
 var currentCityEl = document.querySelector('#current-city');
 var currentTempEl = document.querySelector('#current-temp');
 var currentHumidityEL = document.querySelector('#current-humidity');
@@ -56,18 +57,28 @@ var listSubmitHandler = function(event) {
 };
 
 var updateList = function(city) {
-  var listItemEl = document.createElement('li');
-    listItemEl.className = 'list-group-item';
-    listItemEl.textContent = city;
-    cityListEl.appendChild(listItemEl);
+  // var listItemEl = document.createElement('li');
+  var $listItem = $('<li>')
+    .addClass('list-group-item')
+    .text(city);
+    // .appendTo($cityList);
+  $cityList.append($listItem);
+    // listItemEl.className = 'list-group-item';
+    // listItemEl.textContent = city;
+    // cityListEl.appendChild(listItemEl);
 };
 
 function displayCityList() {
   for (i = 0; i < cityArr.length; i++) {
-    var listItemEl = document.createElement('li');
-    listItemEl.className = 'list-group-item';
-    listItemEl.textContent = cityArr[i];
-    cityListEl.appendChild(listItemEl);
+    var $listItem = $('<li>')
+    .addClass('list-group-item')
+    .text(cityArr[i]);
+    // .appendTo($cityList);
+  $cityList.append($listItem);
+    // var listItemEl = document.createElement('li');
+    // listItemEl.className = 'list-group-item';
+    // listItemEl.textContent = cityArr[i];
+    // cityListEl.appendChild(listItemEl);
   }
 };
 
