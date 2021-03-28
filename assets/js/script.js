@@ -8,6 +8,7 @@ var currentHumidityEL = document.querySelector('#current-humidity');
 var currentWSEl = document.querySelector('#current-ws');
 var currentUViEl = document.querySelector('#current-uvi');
 var weekForecastEl = document.querySelector('#week-forecast');
+// var uviSpan = document.querySelector('#uvi-span');
 var cityArr = [];
 var clicked = false;
 
@@ -82,7 +83,7 @@ function citySearchCheck(city) {
     localStorage.setItem('storedCities', JSON.stringify(cityArr));
 
     // update city list
-    // updateList(city);
+    updateList(city);
   };
 };
 
@@ -134,8 +135,21 @@ var getCityOneCall = function(data) {
   });
 };
 
+function uviWarning(uvIndex, uviSpan) {
+  if (uvIndex < 3) {
+    uviSpan.classList.remove('moderate', 'high');
+    uviSpan.classList.add('low');
+  } else if (uvIndex >= 3) {
+    uviSpan.classList.remove('low', 'high');
+    uviSpan.classList.add('moderate');
+  } else if (uvIndex > 6) {
+    uviSpan.classList.remove('low', 'moderate');
+    uviSpan.classList.add('high');
+  };
+};
+
 var displayWeather = function(data, city) {
-  updateList(city);
+  // updateList(city);
   console.log(data);
 
   // get date
@@ -159,11 +173,18 @@ var displayWeather = function(data, city) {
   var windSpeed = data.current.wind_speed;
   var uvIndex = data.current.uvi;
 
+  // create uvi span and warning logic
+  var uviSpan = document.createElement('span');
+  uviSpan.classList.add('uvi-span');
+  uviSpan.textContent = uvIndex;
+  uviWarning(uvIndex, uviSpan);
+  
   // display desired data
   currentTempEl.textContent = 'Temperature: ' + temp + ' °F';
   currentHumidityEL.textContent = 'Humidity: ' + humidity + ' %';
   currentWSEl.textContent = 'Wind Speed: ' + windSpeed + ' MPH';
-  currentUViEl.innerHTML = 'UV Index: ' + uvIndex;
+  currentUViEl.textContent = 'UV Index: ';
+  currentUViEl.appendChild(uviSpan);
 
   display5Day(data);
 };

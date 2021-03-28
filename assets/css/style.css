@@ -45,12 +45,6 @@ form label {
   padding: 5px;
 }
 
-#current-uv-index {
-  background-color: tomato;
-  padding: 8px;
-  border-radius: 5px;
-}
-
 #week-forecast {
   margin-top: 30px;
 }
@@ -58,4 +52,21 @@ form label {
 #week-forecast .card {
   background-color: lightskyblue;
   padding: 10px;
+}
+
+.uvi-span {
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.low {
+  background-color: lightgreen;
+}
+
+.moderate {
+  background-color: khaki;
+}
+
+.high {
+  background-color: tomato;
 }
