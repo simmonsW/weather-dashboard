@@ -21,10 +21,14 @@
   <main>
     <div class="row">
       <div class="col-4" id="search">
-        <form id="search-form">
-          <label for="city-search">Search for a City:</label></br>
-          <input id="city-search" type="text" />
-          <button id="search-btn" type="button" class="btn btn-primary">Search</button>
+        <form class="row" id="search-form">
+          <label class="col-12" for="city-search">Search for a City:</label></br>
+          <div class="col-auto p-0">
+            <input id="city-search" class="form-control" type="text" />
+          </div>
+          <div class="col-auto p-0">
+            <button id="search-btn" type="button" class="btn btn-primary">Search</button>
+          </div>
         </form>
         <ul class="list-group" id="city-list">
         </ul>
