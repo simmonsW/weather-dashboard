@@ -70,3 +70,11 @@ form label {
 .high {
   background-color: tomato;
 }
+
+.in-line {
+  display: inline-block;
+}
+
+.date {
+  font-weight: 600;
+}
