@@ -8,6 +8,7 @@ var currentWSEl = document.querySelector('#current-ws');
 var currentUViEl = document.querySelector('#current-uvi');
 var weekForecastEl = document.querySelector('#week-forecast');
 var cityArr = [];
+var clicked = false;
 
 // load stored cities
 var storedCities = JSON.parse(localStorage.getItem('storedCities'));
@@ -25,10 +26,11 @@ if (!storedCities) {
   // display data for first city
   var city = cityArr[0];
   getCity(city);
-}
+};
 
 var searchSubmitHandler = function(event) {
   event.preventDefault;
+  clicked = true;
 
   // get city name
   var cityInput = inputEl.value.trim().toLowerCase();
@@ -39,24 +41,9 @@ var searchSubmitHandler = function(event) {
   for (var i = 0; i < citySplit.length; i++) {
     citySplit[i] = citySplit[i][0].toUpperCase() + citySplit[i].substr(1);
   }
-
   var city = citySplit.join(' ');
 
-  console.log(city);
-
-  // check if city has been searched
-  if (cityArr.includes(city)) {
-    getCity(city);
-  } else {
-    cityArr.push(city);
-
-    // store searched city
-    localStorage.setItem('storedCities', JSON.stringify(cityArr));
-
-    // update city list
-    updateList(city);
-    getCity(city);
-  }
+  getCity(city);
 };
 
 var listSubmitHandler = function(event) {
@@ -83,6 +70,21 @@ function displayCityList() {
   }
 };
 
+function citySearchCheck(city) {
+  // check if city has been searched
+  if (cityArr.includes(city)) {
+    console.log('City already stored');
+  } else {
+    cityArr.push(city);
+
+    // store searched city
+    localStorage.setItem('storedCities', JSON.stringify(cityArr));
+
+    // update city list
+    updateList(city);
+  };
+};
+
 function getCity(city) {
   var apiURL = "https://api.openweathermap.org/data/2.5/weather?q="
     + city + "&units=imperial&appid=";
@@ -91,6 +93,10 @@ function getCity(city) {
     if (response.ok) {
       response.json().then(function(data) {
         getCityOneCall(data);
+        if (clicked === true) {
+          console.log(clicked);
+          citySearchCheck(city);
+        }
       });
     } else {
       alert("Error: " + response.statusText);
@@ -164,7 +170,7 @@ var display5Day = function(data) {
   // clear old content
   while (weekForecastEl.firstChild) {
     weekForecastEl.removeChild(weekForecastEl.firstChild);
-  }
+  };
 
   for (i = 1; i < 6; i++) {
     // get date, temperature, and humidity
@@ -197,7 +203,7 @@ var display5Day = function(data) {
     cardEl.appendChild(humidityEl);
     weekForecastEl.appendChild(cardEl);
   };
-}
+};
 
 searchBtnEl.addEventListener('click', searchSubmitHandler);
 inputEl.addEventListener('submit', searchSubmitHandler);
