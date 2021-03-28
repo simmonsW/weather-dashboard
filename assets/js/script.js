@@ -145,11 +145,11 @@ function uviWarning(uvIndex, $uviSpan) {
     $uviSpan
       .removeClass('moderate', 'high')
       .addClass('low');
-  } else if (uvIndex >= 3) {
+  } else if (uvIndex >= 3 && uvIndex < 6) {
     $uviSpan
       .removeClass('low', 'high')
       .addClass('moderate');
-  } else if (uvIndex > 6) {
+  } else if (uvIndex >= 6) {
     $uviSpan
       .removeClass('low', 'moderate')
       .addClass('high');
