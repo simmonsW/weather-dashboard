@@ -1,5 +1,6 @@
 var inputEl = document.querySelector('#city-search');
 var searchBtnEl = document.querySelector('#search-btn');
+var searchFormEl = document.querySelector('#search-form');
 var cityListEl = document.querySelector('#city-list');
 var currentCityEl = document.querySelector('#current-city');
 var currentTempEl = document.querySelector('#current-temp');
@@ -81,7 +82,7 @@ function citySearchCheck(city) {
     localStorage.setItem('storedCities', JSON.stringify(cityArr));
 
     // update city list
-    updateList(city);
+    // updateList(city);
   };
 };
 
@@ -134,6 +135,7 @@ var getCityOneCall = function(data) {
 };
 
 var displayWeather = function(data, city) {
+  updateList(city);
   console.log(data);
 
   // get date
@@ -205,8 +207,14 @@ var display5Day = function(data) {
   };
 };
 
+// searchFormEl.addEventListener('submit', searchSubmitHandler);
 searchBtnEl.addEventListener('click', searchSubmitHandler);
-inputEl.addEventListener('submit', searchSubmitHandler);
+inputEl.addEventListener('keypress', function(e) {
+  if (e.keyCode === 13) {
+    e.preventDefault();
+    searchBtnEl.click();
+  }
+});
 cityListEl.addEventListener('click', function(event) {
   if (event.target.tagName.toLowerCase() === 'li') {
     listSubmitHandler(event);
