@@ -217,11 +217,11 @@ var display5Day = function(data) {
 
     // create card
     var $cardEl = $('<div>')
-      .addClass('card');
+      .addClass('card col-lg-2 col-7 d-flex align-items-lg-start align-items-center');
 
     // title
     var $cardTitleEl = $('<p>')
-      .addClass('card-title', 'date')
+      .addClass('card-title date')
       .text(date);
 
     // weather icon
