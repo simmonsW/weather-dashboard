@@ -14,6 +14,7 @@ var $currentUViEl = $('#current-uvi');
 var $weekForecastEl = $('#week-forecast');
 var cityArr = [];
 var clicked = false;
+var apiKey = '261ca12d11296bbad48780f4e894ad17';
 
 // load stored cities
 var storedCities = JSON.parse(localStorage.getItem('storedCities'));
@@ -93,7 +94,7 @@ function citySearchCheck(city) {
 
 function getCity(city) {
   var apiURL = "https://api.openweathermap.org/data/2.5/weather?q="
-    + city + "&units=imperial&appid=";
+    + city + "&units=imperial&appid=" + apiKey;
 
   fetch(apiURL).then(function(response) {
     if (response.ok) {
@@ -123,7 +124,7 @@ var getCityOneCall = function(data) {
 
   // One Call API
   var apiURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" 
-  + lat + "&lon=" + lon + "&units=imperial&appid=";
+  + lat + "&lon=" + lon + "&units=imperial&appid=" + apiKey;
 
   fetch(apiURL).then(function(response) {
     if (response.ok) {
