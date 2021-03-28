@@ -1,14 +1,17 @@
-var inputEl = document.querySelector('#city-search');
-var searchBtnEl = document.querySelector('#search-btn');
-var searchFormEl = document.querySelector('#search-form');
-// var cityListEl = document.querySelector('#city-list');
+// form vars
+var $inputEl = $('#city-search');
+var $searchBtnEl = $('#search-btn');
+var $searchFormEl = $('#search-form');
+// lsit var
 var $cityList = $('#city-list');
-var currentCityEl = document.querySelector('#current-city');
-var currentTempEl = document.querySelector('#current-temp');
-var currentHumidityEL = document.querySelector('#current-humidity');
-var currentWSEl = document.querySelector('#current-ws');
-var currentUViEl = document.querySelector('#current-uvi');
-var weekForecastEl = document.querySelector('#week-forecast');
+// current weather var
+var $currentCityEl = $('#current-city');
+var $currentTempEl = $('#current-temp');
+var $currentHumidityEL = $('#current-humidity');
+var $currentWSEl = $('#current-ws');
+var $currentUViEl = $('#current-uvi');
+// 5 day forecast var
+var $weekForecastEl = $('#week-forecast');
 var cityArr = [];
 var clicked = false;
 
@@ -35,16 +38,15 @@ var searchSubmitHandler = function(event) {
   clicked = true;
 
   // get city name
-  var cityInput = inputEl.value.trim().toLowerCase();
+  var cityInput = $inputEl.val().trim().toLowerCase();
 
   // format city name uniformity
   var citySplit = cityInput.split(' ');
-
   for (var i = 0; i < citySplit.length; i++) {
     citySplit[i] = citySplit[i][0].toUpperCase() + citySplit[i].substr(1);
   }
   var city = citySplit.join(' ');
-
+  // send to fetch request
   getCity(city);
 };
 
@@ -57,15 +59,11 @@ var listSubmitHandler = function(event) {
 };
 
 var updateList = function(city) {
-  // var listItemEl = document.createElement('li');
   var $listItem = $('<li>')
     .addClass('list-group-item')
     .text(city);
-    // .appendTo($cityList);
   $cityList.append($listItem);
-    // listItemEl.className = 'list-group-item';
-    // listItemEl.textContent = city;
-    // cityListEl.appendChild(listItemEl);
+
 };
 
 function displayCityList() {
@@ -73,12 +71,7 @@ function displayCityList() {
     var $listItem = $('<li>')
     .addClass('list-group-item')
     .text(cityArr[i]);
-    // .appendTo($cityList);
   $cityList.append($listItem);
-    // var listItemEl = document.createElement('li');
-    // listItemEl.className = 'list-group-item';
-    // listItemEl.textContent = cityArr[i];
-    // cityListEl.appendChild(listItemEl);
   }
 };
 
@@ -145,37 +138,37 @@ var getCityOneCall = function(data) {
   });
 };
 
-function uviWarning(uvIndex, uviSpan) {
+function uviWarning(uvIndex, $uviSpan) {
   if (uvIndex < 3) {
-    uviSpan.classList.remove('moderate', 'high');
-    uviSpan.classList.add('low');
+    $uviSpan
+      .removeClass('moderate', 'high')
+      .addClass('low');
   } else if (uvIndex >= 3) {
-    uviSpan.classList.remove('low', 'high');
-    uviSpan.classList.add('moderate');
+    $uviSpan
+      .removeClass('low', 'high')
+      .addClass('moderate');
   } else if (uvIndex > 6) {
-    uviSpan.classList.remove('low', 'moderate');
-    uviSpan.classList.add('high');
+    $uviSpan
+      .removeClass('low', 'moderate')
+      .addClass('high');
   };
 };
 
 var displayWeather = function(data, city) {
-  // updateList(city);
   console.log(data);
 
   // get date
   var unixDate = data.current.dt;
   var dateArr = new Date(unixDate * 1000).toLocaleDateString('en-US').split('/');
-  console.log(dateArr);
   var date = "(" + dateArr[0] + "/" + dateArr[1] + "/" + dateArr[2] + ")";
-  console.log(date);
 
   // get weather icon
   var weatherIcon = data.current.weather[0].icon;
   var iconSrc = "http://openweathermap.org/img/w/" + weatherIcon + ".png";
-  console.log(weatherIcon);
 
   // display info
-  currentCityEl.innerHTML = city + " " + date + " " + `<img src=${iconSrc}>`;
+  $currentCityEl
+    .html(city + " " + date + " " + `<img src=${iconSrc}>`);
 
   // get desired data
   var temp = data.current.temp;
@@ -184,84 +177,91 @@ var displayWeather = function(data, city) {
   var uvIndex = data.current.uvi;
 
   // create uvi span and warning logic
-  var uviSpan = document.createElement('span');
-  uviSpan.classList.add('uvi-span');
-  uviSpan.textContent = uvIndex;
-  uviWarning(uvIndex, uviSpan);
+  var $uviSpan = $('<span>')
+    .addClass('uvi-span')
+    .text(uvIndex);
+  uviWarning(uvIndex, $uviSpan);
   
   // display desired data
-  currentTempEl.textContent = 'Temperature: ' + temp + ' °F';
-  currentHumidityEL.textContent = 'Humidity: ' + humidity + ' %';
-  currentWSEl.textContent = 'Wind Speed: ' + windSpeed + ' MPH';
-  currentUViEl.textContent = 'UV Index: ';
-  currentUViEl.appendChild(uviSpan);
+  $currentTempEl
+    .text('Temperature: ' + temp + ' °F');
+  $currentHumidityEL
+    .text('Humidity: ' + humidity + ' %');
+  $currentWSEl
+    .text('Wind Speed: ' + windSpeed + ' MPH');
+  $currentUViEl
+    .text('UV Index: ');
+  $currentUViEl.append($uviSpan);
 
   display5Day(data);
 };
 
 var display5Day = function(data) {
   // clear old content
-  while (weekForecastEl.firstChild) {
-    weekForecastEl.removeChild(weekForecastEl.firstChild);
-  };
+  $weekForecastEl.empty();
 
   for (i = 1; i < 6; i++) {
-    // get date, icon, temperature, and humidity
+    // get date and format
     var unixDate = data.daily[i].dt;
     var dateArr = new Date(unixDate * 1000).toLocaleDateString('en-US').split('/');
     var date = "(" + dateArr[0] + "/" + dateArr[1] + "/" + dateArr[2] + ")";
+
+    // get weather icon value and format src
     var weatherIcon = data.daily[i].weather[0].icon;
     var iconSrc = "http://openweathermap.org/img/w/" + weatherIcon + ".png";
+
+    // get temperature and humidity
     var temp = data.daily[i].temp.day;
     var humidity = data.daily[i].humidity;
 
-    var tempSpan = document.createElement('span');
-    tempSpan.classList.add('in-line');
-    tempSpan.textContent = temp + ' °F';
-    var humiditySpan = document.createElement('span');
-    humiditySpan.classList.add('in-line');
-    humiditySpan.textContent = humidity + ' %';
-
     // create card
-    var cardEl = document.createElement('div');
-    cardEl.classList.add('card');
+    var $cardEl = $('<div>')
+      .addClass('card');
+
     // title
-    var cardTitleEl = document.createElement('p');
-    cardTitleEl.classList.add('card-title', 'date');
-    cardTitleEl.textContent = date;
+    var $cardTitleEl = $('<p>')
+      .addClass('card-title', 'date')
+      .text(date);
+
     // weather icon
-    var iconEl = document.createElement('img');
-    iconEl.setAttribute('src', `${iconSrc}`);
-    iconEl.setAttribute('width', '50px');
+    var $iconEl = $('<img>')
+      .attr({
+        src: `${iconSrc}`,
+        width: '50px'
+      });
+
     // temperature
-    var tempEl = document.createElement('p');
-    tempEl.classList.add('card-text');
-    tempEl.textContent = 'Temp: ';
+    var $tempSpan = $('<span>')
+      .addClass('in-line')
+      .text(temp + ' °F');
+    var $tempEl = $('<p>')
+      .addClass('card-text')
+      .text('Temp: ');
+
     // humidity
-    var humidityEl = document.createElement('p');
-    humidityEl.classList.add('card-text');
-    humidityEl.textContent = 'Humidity: ';
+    var $humiditySpan = $('<span>')
+      .addClass('in-line')
+      .text(humidity + ' %');
+    var $humidityEl = $('<p>')
+      .addClass('card-text')
+      .text('Humidity: ');
 
     // append to page
-    tempEl.appendChild(tempSpan);
-    humidityEl.appendChild(humiditySpan);
-    cardEl.appendChild(cardTitleEl);
-    cardEl.appendChild(iconEl);
-    cardEl.appendChild(tempEl);
-    cardEl.appendChild(humidityEl);
-    weekForecastEl.appendChild(cardEl);
+    $tempEl.append($tempSpan);
+    $humidityEl.append($humiditySpan);
+    $cardEl.append($cardTitleEl, $iconEl, $tempEl, $humidityEl);
+    $weekForecastEl.append($cardEl);
   };
 };
 
-// searchFormEl.addEventListener('submit', searchSubmitHandler);
-searchBtnEl.addEventListener('click', searchSubmitHandler);
-inputEl.addEventListener('keypress', function(e) {
+$searchBtnEl.click(searchSubmitHandler);
+$inputEl.keypress(function(e) {
   if (e.keyCode === 13) {
     e.preventDefault();
-    searchBtnEl.click();
+    $searchBtnEl.click();
   }
 });
-cityListEl.addEventListener('click', function(event) {
+$cityList.click(function(event) {
   if (event.target.tagName.toLowerCase() === 'li') {
     listSubmitHandler(event);
   };
