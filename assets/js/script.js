@@ -39,6 +39,7 @@ var searchSubmitHandler = function(event) {
 
   // get city name
   var cityInput = $inputEl.val().trim().toLowerCase();
+  $inputEl.val(" ");
 
   // format city name uniformity
   var citySplit = cityInput.split(' ');
